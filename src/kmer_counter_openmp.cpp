@@ -44,11 +44,11 @@ std::unordered_map<std::string, int> omp_count_kmers(const std::string& sequence
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
+    if (argc < 3) {
         throw std::runtime_error("Filepath must be provided");
     }
-    std::string filepath = argv[1];
-    int k = 3;
+    std::string filepath = argv[2];
+    int k = std::stoi(argv[1]);
 
     auto start = std::chrono::high_resolution_clock::now();
 

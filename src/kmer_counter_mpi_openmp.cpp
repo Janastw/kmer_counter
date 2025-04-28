@@ -196,14 +196,15 @@ std::unordered_map<std::string, int> count_kmers(const std::string& fasta_filepa
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
+    if (argc < 3) {
         throw std::runtime_error("Filepath must be provided");
     }
-    std::string filepath = argv[1];
+    std::string filepath = argv[2];
+    int k = std::stoi(argv[1]);
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    std::unordered_map<std::string, int> kmer_counts = count_kmers(filepath, 3);
+    std::unordered_map<std::string, int> kmer_counts = count_kmers(filepath, k);
 
     auto end = std::chrono::high_resolution_clock::now();
 
@@ -212,6 +213,6 @@ int main(int argc, char* argv[]) {
     }
     std::chrono::duration<double> elapsed = end - start;
     std::cout << "Time taken: " << elapsed.count() << " seconds" << std::endl;
-
+    std::cout << "fasta = " << filepath << std::endl;
     return 0;
 }
