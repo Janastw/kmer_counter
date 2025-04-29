@@ -1,5 +1,5 @@
 name: Kmer_Counter
-run-name: Test_Workflow
+run-name: Test Workflow
 on:
   push:
     branches: "*"
