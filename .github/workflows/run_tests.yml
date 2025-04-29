@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup tmate Session
-        if: ${{ github.event_name 'workflow_dispatch' && inputs.debug_enabled == 'true' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled == 'true' }}
         uses: mxschmitt/action-tmate@v3
 
       - name: Build Kmer Counter
