@@ -1,13 +1,4 @@
-#include <unordered_map>
-#include <fstream>
-#include <string>
-#include <iostream>
-#include <chrono>
-#include <omp.h>
-#include <vector>
-#include <mpi.h>
-// #include <exception>
-
+#include <mpi_openmp_kmer_counter.hpp>
 
 bool run_mpi_init() {
     bool i_initialized_mpi = false;
@@ -26,21 +17,6 @@ void run_mpi_finalize(bool mpi_init_ran) {
     if (mpi_init_ran) {
         MPI_Finalize();
     }
-}
-
-std::string read_fasta(const std::string& fasta_filepath) {
-    std::ifstream file(fasta_filepath);
-    std::string line, sequence;
-
-    while (std::getline(file, line)) {
-        if (line.empty() || line[0] == '>') {
-            continue;
-        }
-        sequence += line;
-    }
-    file.close();
-
-    return sequence;
 }
 
 // Openmp portion inside of each rank
@@ -110,28 +86,14 @@ std::unordered_map<std::string, int> deserialize_map(const std::vector<char>& fl
     return merged_map;
 }
 
-
-std::unordered_map<std::string, int> count_kmers(const std::string& fasta_filepath, const int& k) {
+std::unordered_map<std::string, int> count_kmers(const std::string& sequence, const int& k) {
     bool check_mpi_init = run_mpi_init();
 
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-
-    std::string sequence;
-    if (rank == 0) {
-        sequence = read_fasta(fasta_filepath);
-    }
-    // Preparing to send the sequence by sending the sequence size first
     int sequence_size = sequence.size();
-
-    MPI_Bcast(&sequence_size, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    if (rank != 0) {
-        sequence.resize(sequence_size);
-    }
-    // sequence is read as a const std::string, so we must "const away" sequence with reinterpret_cast<void*>
-    MPI_Bcast(reinterpret_cast<void*>(&sequence[0]), sequence_size, MPI_CHAR, 0, MPI_COMM_WORLD);
 
     int base_chunk_size = sequence.size() / size;
     int starting_index = base_chunk_size * rank;
@@ -193,26 +155,4 @@ std::unordered_map<std::string, int> count_kmers(const std::string& fasta_filepa
     run_mpi_finalize(check_mpi_init);
 
     return global_kmer_map;
-}
-
-int main(int argc, char* argv[]) {
-    if (argc < 3) {
-        throw std::runtime_error("Filepath must be provided");
-    }
-    std::string filepath = argv[2];
-    int k = std::stoi(argv[1]);
-
-    auto start = std::chrono::high_resolution_clock::now();
-
-    std::unordered_map<std::string, int> kmer_counts = count_kmers(filepath, k);
-
-    auto end = std::chrono::high_resolution_clock::now();
-
-    for (const auto& pair : kmer_counts) {
-        std::cout << pair.first << " : " << pair.second << std::endl;
-    }
-    std::chrono::duration<double> elapsed = end - start;
-    std::cout << "Time taken: " << elapsed.count() << " seconds" << std::endl;
-    std::cout << "fasta = " << filepath << std::endl;
-    return 0;
 }
