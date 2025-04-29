@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 project(kmer_counter_project)
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(MPI REQUIRED)
 find_package(OpenMP REQUIRED)
+find_package(MPI REQUIRED)
 
 add_library(naive_kmer_counter src/naive_kmer_counter.cpp src/utils.cpp)
 add_library(openmp_kmer_counter src/openmp_kmer_counter.cpp src/utils.cpp)

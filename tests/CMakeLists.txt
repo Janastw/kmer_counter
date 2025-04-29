@@ -6,7 +6,7 @@ target_include_directories(kmer_tests PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(kmer_tests PRIVATE gtest gtest_main)
 add_test(NAME kmer_tests COMMAND kmer_tests)
 
-add_executable(kmer_openmp_tests test_mpi.cpp ${PROJECT_SOURCE_DIR}/src/openmp_kmer_counter.cpp)
+add_executable(kmer_openmp_tests test_openmp.cpp ${PROJECT_SOURCE_DIR}/src/openmp_kmer_counter.cpp)
 target_include_directories(kmer_openmp_tests PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(kmer_openmp_tests PRIVATE gtest gtest_main OpenMP::OpenMP_CXX)
 add_test(NAME kmer_openmp_tests COMMAND kmer_openmp_tests)

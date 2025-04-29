@@ -7,4 +7,4 @@
 #include <omp.h>
 #include <vector>
 
-std::unordered_map<std::string, int> omp_count_kmers(const std::string& sequence, int k);
+std::unordered_map<std::string, int> count_kmers(const std::string& sequence, int k);

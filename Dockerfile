@@ -14,3 +14,8 @@ RUN apt-get update && \
         && cd /usr/src/gtest && cmake . && make && cp lib/*.a /usr/lib
 
 COPY . .
+
+RUN useradd -m -s /bin/bash mpiuser && \
+    echo "mpiuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+USER mpiuser

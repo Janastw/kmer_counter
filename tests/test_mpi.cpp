@@ -74,3 +74,29 @@ TEST(MPI_OPENMP_TESTS, NegativeMPI_OpenMP_ShortOnemerTest) {
 TEST(MPI_OPENMP_TESTS, NegativeMPI_OpenMP_RepeatedOnemerTest) {
     EXPECT_NE(count_kmers(repeated_sequence, 1), repeated_threemer_map);
 }
+
+int main(int argc, char* argv[]) {
+    MPI_Init(&argc, &argv);
+
+    int world_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+
+    ::testing::InitGoogleTest(&argc, argv);
+    // Silence output from non-root ranks
+    if (world_rank != 0) {
+        ::testing::GTEST_FLAG(output) = "";
+        ::testing::GTEST_FLAG(also_run_disabled_tests) = false;
+        // Redirect stdout/stderr
+        freopen("/dev/null", "w", stdout);
+        freopen("/dev/null", "w", stderr);
+    }
+    int result = RUN_ALL_TESTS();
+
+    MPI_Finalize();
+
+    if (world_rank == 0) {
+        return result;
+    } else {
+        return 0;
+    }
+}
