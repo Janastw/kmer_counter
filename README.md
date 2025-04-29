@@ -1,5 +1,7 @@
 # K-mer Counter (Naive, OpenMP, and OpenMP+MPI)
 
+This project explores the design of scalable k-mer counting algorithms for large FASTA datasets, leveraging shared-memory parallelism (OpenMP) and distributed-memory parallelism (MPI). Focus: efficiency, scalability, and clean reproducibility.
+
 This project implements several parallel versions of a k-mer counter for FASTA files:
 
 - Naive single-threaded C++ implementation
