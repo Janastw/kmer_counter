@@ -1,0 +1,37 @@
+name: Kmer_Counter
+run-name: Test_Workflow
+on:
+  push:
+    branches: "*"
+  pull_request:
+    branches: "*"
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        required: false
+        default: false
+
+  jobs:
+    testing:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Clone Repository
+          uses: actions/checkout@v4
+
+        - name: Setup tmate Session
+          if: ${{ github.event_name 'workflow_dispatch' && inputs.debug_enabled == 'true' }}
+          uses: mxschmitt/action-tmate@v3
+
+        - name: Build Kmer Counter
+          run: docker build -t kmer-counter .
+
+        - name: Run Tests through Interactive Session
+          run: |
+            chmod +x interactive.sh
+            ./interactive.sh
+            mkdir build
+            cd build
+            cmake ..
+            make
+            ctest -V
+            
