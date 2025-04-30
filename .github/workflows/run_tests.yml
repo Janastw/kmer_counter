@@ -42,5 +42,5 @@ jobs:
         run: ctest --output-on-failure -R kmer_openmp_tests
 
       - name: Run MPI/OpenMP Google Tests
-        working-directory: build
+        working-directory: build/tests
         run: mpiexec -n 2 ./kmer_mpi_openmp_tests
