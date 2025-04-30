@@ -12,7 +12,7 @@ on:
         default: false
 
 jobs:
-  testing:
+  running_tests:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repository
@@ -43,6 +43,4 @@ jobs:
 
       - name: Run MPI/OpenMP Google Tests
         working-directory: build
-        run: |
-          lscpu
-          mpiexec -n 4 ./kmer_mpi_openmp_tests
+        run: mpiexec -n 2 ./kmer_mpi_openmp_tests
