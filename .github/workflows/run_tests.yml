@@ -22,16 +22,15 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled == 'true' }}
         uses: mxschmitt/action-tmate@v3
 
-      - name: Build Kmer Counter
-        run: docker build -t kmer-counter .
-
-      - name: Run Tests through Interactive Session
+      - name: Install Dependencies
         run: |
-          chmod +x interactive.sh
-          ./interactive.sh
+          sudo apt update
+          sudo apt install -y build-essential cmake libgtest-dev libopenmpi-dev openmpi-bin
+
+      - name: Build & Run Google Tests
+        run: |
           mkdir build
           cd build
           cmake ..
           make
           ctest -V
-            
