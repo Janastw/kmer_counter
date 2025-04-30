@@ -35,7 +35,7 @@ jobs:
           make
       - name: Run Naive Google Tests
         working-directory: build
-        run: ctest --output-on-failure -R kmer_tests
+        run: ctest --output-on-failure -R kmer_naive_tests
 
       - name: Run OpenMP Google Tests
         working-directory: build
