@@ -1,4 +1,5 @@
 #include <mpi_openmp_kmer_counter.hpp>
+#include <utils.hpp>
 
 bool run_mpi_init() {
     bool i_initialized_mpi = false;
@@ -87,6 +88,8 @@ std::unordered_map<std::string, int> deserialize_map(const std::vector<char>& fl
 }
 
 std::unordered_map<std::string, int> count_kmers(const std::string& sequence, const int& k) {
+    check_edge_cases(sequence, k);
+
     bool check_mpi_init = run_mpi_init();
 
     int rank, size;

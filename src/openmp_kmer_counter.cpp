@@ -1,6 +1,9 @@
 #include <openmp_kmer_counter.hpp>
+#include <utils.hpp>
 
 std::unordered_map<std::string, int> count_kmers(const std::string& sequence, int k) {
+    check_edge_cases(sequence, k);
+
     int num_threads = omp_get_max_threads();
     std::vector<std::unordered_map<std::string, int> > thread_maps(num_threads);
 

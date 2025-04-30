@@ -15,6 +15,7 @@ int main(int argc, char* argv[]) {
     auto start = std::chrono::high_resolution_clock::now();
 
     std::string sequence = read_fasta(filepath);
+    check_edge_cases(sequence, k);
     auto kmer_counts = count_kmers(sequence, k);
 
     auto end = std::chrono::high_resolution_clock::now();
