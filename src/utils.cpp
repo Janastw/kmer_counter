@@ -1,4 +1,4 @@
-#include <utils.hpp>
+#include "utils.hpp"
 
 std::string read_fasta(const std::string& fasta_filepath) {
     std::ifstream file(fasta_filepath);

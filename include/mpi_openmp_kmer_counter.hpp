@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MPI_OPENMP_KMER_COUNTER_HPP
+#define MPI_OPENMP_KMER_COUNTER_HPP
+
 #include <unordered_map>
 #include <string>
 #include <chrono>
@@ -13,3 +15,5 @@ void merge_maps(std::unordered_map<std::string, int>& target, const std::unorder
 std::pair<std::vector<char>, std::vector<int> > serialize_map(const std::unordered_map<std::string, int>& map);
 std::unordered_map<std::string, int> deserialize_map(const std::vector<char>& flattened_kmers, const std::vector<int> kmer_counts, const int& k);
 std::unordered_map<std::string, int> count_kmers(const std::string& fasta_filepath, const int& k);
+
+#endif

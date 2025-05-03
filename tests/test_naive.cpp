@@ -1,7 +1,7 @@
 #include <string>
 #include <unordered_map>
 #include <gtest/gtest.h>
-#include "naive_kmer_counter.hpp"
+#include <naive_kmer_counter.hpp>
 
 
 static std::string simple_sequence = "ABCDEFG";
